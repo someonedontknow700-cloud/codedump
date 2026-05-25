@@ -15,7 +15,6 @@ int horspool(char T[], char P[], int n, int m)
         table[(unsigned char)P[i]] = m - 1 - i;
 
     i = m - 1;
-
     while(i < n)
     {
         j = 0;
