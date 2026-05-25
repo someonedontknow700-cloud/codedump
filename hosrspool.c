@@ -1,31 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int horspool(char T[], char P[], int n, int m)
 {
-    int table[256];
-    int i, j;
-
-    // Initialize shift table
-    for(i = 0; i < 256; i++)
-        table[i] = m;
-
-    // Fill pattern shifts
-    for(i = 0; i < m - 1; i++)
-        table[(unsigned char)P[i]] = m - 1 - i;
-
-    i = m - 1;
-    while(i < n)
+    int ST[256];
+    for (int i = 0; i < 256; i++)
     {
-        j = 0;
+        ST[i] = m;
+    }
 
-        while(j < m && T[i-j] == P[m-1-j])
+    for (int i = 0; i < m - 1; i++)
+    {
+        ST[P[i]] = m - i - 1;
+    }
+
+    int i = m - 1;
+    while (i < n)
+    {
+        int j = 0;
+        while (j < m && P[m - j - 1] == T[i - j])
+        {
             j++;
+        }
 
-        if(j == m)
-            return i - m + 1;
+        if (j == m)
+            return (i - m + 1);
 
-        i = i + table[(unsigned char)T[i]];
+        i += ST[T[i]];
     }
 
     return -1;
@@ -33,24 +35,29 @@ int horspool(char T[], char P[], int n, int m)
 
 int main()
 {
-    char T[100], P[100];
-    int flag;
-
-    printf("Enter the Text String:\n");
+    printf("Enter text:\n");
+    char T[100];
     fgets(T, sizeof(T), stdin);
 
-    printf("Enter the Pattern String:\n");
+    printf("enter pattern:\n");
+    char P[100];
     fgets(P, sizeof(P), stdin);
 
-    T[strcspn(T,"\n")] = '\0';
-    P[strcspn(P,"\n")] = '\0';
+    T[strcspn(T, "\n")] = '\0';
+    P[strcspn(P, "\n")] = '\0';
 
-    flag = horspool(T, P, strlen(T), strlen(P));
+    int n = strlen(T), m = strlen(P);
 
-    if(flag == -1)
-        printf("String not Found\n");
+    int ans = horspool(T, P, n, m);
+
+    if (ans == -1)
+    {
+        printf("String not found\n");
+    }
     else
-        printf("String found at position %d\n", flag);
+    {
+        printf("String found at position %d", ans);
+    }
 
     return 0;
 }
