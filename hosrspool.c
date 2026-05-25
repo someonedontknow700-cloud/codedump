@@ -9,7 +9,6 @@ int horspool(char T[], char P[], int n, int m)
     {
         ST[i] = m;
     }
-
     for (int i = 0; i < m - 1; i++)
     {
         ST[P[i]] = m - i - 1;
