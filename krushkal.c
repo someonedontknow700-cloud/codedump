@@ -1,88 +1,66 @@
 #include <stdio.h>
 
-#define INF 999999
-
 void kruskal(int n, int cost[20][20])
 {
     int parent[20];
 
-    for(int i=0;i<n;i++)
-        parent[i]=-1;
+    for (int i = 0; i < 20; i++)
+        parent[i] = -1;
 
-    int ne=1;
-    int mincost=0;
-
-    while(ne<n)
+    int ne = 1, mincost = 0;
+    while (ne < n)
     {
-        int a,b,u,v;
-        int min=INF;
+        int a, b, u, v;
+        int min = 999;
 
-        for(int i=0;i<n;i++)
+        for (int i = 0; i < n; i++)
         {
-            for(int j=0;j<n;j++)
+            for (int j = 0; j < n; j++)
             {
-                if(cost[i][j]<min)
+                if (cost[i][j] < min)
                 {
-                    min=cost[i][j];
-
-                    a=u=i;
-                    b=v=j;
+                    min = cost[i][j];
+                    a = u = i;
+                    b = v = j;
                 }
             }
         }
 
-        while(parent[u]!=-1)
-            u=parent[u];
+        while (parent[u] != -1)
+            u = parent[u];
+        while (parent[v] != -1)
+            v = parent[v];
 
-        while(parent[v]!=-1)
-            v=parent[v];
-
-        if(u!=v)
+        if (u != v)
         {
-            printf(
-                "%d edge (%d,%d)=%d\n",
-                ne,
-                a,
-                b,
-                min
-            );
-
-            mincost+=min;
-
-            parent[v]=u;
-
-            ne++;
+            printf("%d edge (%d, %d) = %d\n", ne++, a, b, min);
+            mincost += min;
+            parent[v] = u;
         }
 
-        cost[a][b]=cost[b][a]=INF;
+        cost[a][b] = cost[b][a] = 999;
     }
 
-    printf("\nMinimum Cost=%d",mincost);
+    printf("\nmincost: %d", mincost);
 }
 
 int main()
 {
     int n;
-
-    printf("Enter number of vertices:\n");
-    scanf("%d",&n);
+    scanf("%d", &n);
 
     int cost[20][20];
-
-    printf("Enter adjacency matrix:\n");
-
-    for(int i=0;i<n;i++)
+    for (int i = 0; i < n; i++)
     {
-        for(int j=0;j<n;j++)
+        for (int j = 0; j < n; j++)
         {
-            scanf("%d",&cost[i][j]);
-
-            if(i==j || cost[i][j]==0)
-                cost[i][j]=INF;
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0)
+            {
+                cost[i][j] = 999;
+            }
         }
     }
 
-    kruskal(n,cost);
-
-    return 0;
+    kruskal(n, cost);
 }
